@@ -23,7 +23,6 @@ import itertools
 from typing import Any, Optional, Tuple
 from numpy import random
 import math
-# from PriorityQueue import PriorityQueue
 from WeightedGraph import WeightedGraph
 import pandas as pd
 from scipy.sparse import csr_array
