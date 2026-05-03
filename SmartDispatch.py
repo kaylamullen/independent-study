@@ -98,6 +98,7 @@ class Dasher:
         self.len_time_avail = exit_time - start_time # 0 if they are not available
         self.simulator_time = 0 # the current time in the simulator
         self.time_next_avail = start_time # the earliest time at which they can start going towards a new task
+        self.distance_traveled = 0 #the current distance this dasher traveled 
 
 
 class EventHandle:
@@ -202,6 +203,7 @@ class SmartDispatch(Simulator):
                     
             next_recalc_time = self.now+1
             if next_recalc_time not in self.recalc_events.keys():
+
                 self.schedule_at(next_recalc_time, 'Recalc', system)
                 self.recalc_events[next_recalc_time] = 'Recalc'
             
@@ -308,7 +310,9 @@ class SmartDispatch(Simulator):
                 if next_node == task.location:
                     system.add_reward(task)
                     system.remove_task(task)
+                
                 dasher.location = next_node
+                dasher.distance_traveled = dasher.distance_traveled+1 #  the dasher by 1 edge, can be changed to the edge's weight later
                 self.schedule_at(self.now + dist_matrix[dasher.location][next_node], 'Dasher Arrival', (system, dasher))
 
             # have any dasher that was not assigned to a task check back for a new one at t+1
@@ -573,8 +577,9 @@ if __name__ == "__main__":
     # # get_results("project_files/dashers.csv", "project_files/tasklog.csv", 500)
     
     # get_results("input/christine-new-dashers.csv", "input/christine-new-tasklog.csv", 1440)
-    test_diff_dasher_amts("input/christine-new-dashers.csv", "input/christine-new-tasklog.csv", 1440)
+    # test_diff_dasher_amts("input/christine-new-dashers.csv", "input/christine-new-tasklog.csv", 1440)
 
+    get_results("input/christine-inputs/christin-new-dashers-mini.csv", "input/christine-inputs/christine-new-tasklog-mini.csv", 1440)
     
     #agents = [(0, 17), (0, 17), (0, 17)]
     #agents = [(3, 9), (10, 19), (17, 2), (5, 18), (10, 15)]
